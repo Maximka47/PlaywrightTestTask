@@ -33,10 +33,13 @@ jobs:
             exit 1
           fi
 
-      # Step 5: Checkout the report branch (create branch if it doesn't exist)
+      # Step 5: Clean any uncommitted changes and checkout the report branch
       - name: Prepare report branch
         run: |
           git fetch origin
+          # Clean uncommitted changes to avoid checkout conflicts
+          git reset --hard
+          git clean -fd
           if git ls-remote --exit-code --heads origin report-branch; then
             git checkout report-branch
             git pull origin report-branch
