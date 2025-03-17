@@ -33,18 +33,19 @@ jobs:
       - name: Checkout report branch
         uses: actions/checkout@v3
         with:
-          ref: report-branch
+          ref: refs/heads/report-branch
+          fetch-depth: 0
 
       # Step 6. Commit and push the generated report
       - name: Push report to branch
         run: |
-          rm -rf *
+          find . -not -name '.git' -delete # Keep .git and remove other files
           mv allure-report/* .
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Update Allure report" || echo "No changes to commit"
-          git push -f origin report-branch
+          git push origin report-branch --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -53,8 +54,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: report-branch # Branch where the report is pushed
-          publish_dir: . # Directory to deploy
+          publish_branch: report-branch
+          publish_dir: .
 
       # Step 8. Output link to GitHub Pages
       - name: Set GitHub Pages URL
