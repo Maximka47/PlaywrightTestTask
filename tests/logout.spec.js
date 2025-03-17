@@ -14,6 +14,6 @@ test('User can log out successfully', async ({ page }) => {
     await logoutPage.logout();
 
     // Verify successful logout
-    const loggedOut=await logoutPage.isLoggedOut();
+    const loggedOut = await logoutPage.isLoggedOut();
     expect(loggedOut).toBeTruthy();
 });
