@@ -16,7 +16,8 @@ jobs:
 
       # Step 2: Install dependencies
       - name: Install dependencies
-        run: npm ci && npx playwright install --with-deps
+        run: timeout 5m npm ci && npx playwright install --with-deps && npm install -D allure-playwright
+
 
       # Step 3: Run Playwright tests
       - name: Run tests with Playwright
