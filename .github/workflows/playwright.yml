@@ -3,7 +3,7 @@ name: Generate Allure Report
 on:
   push:
     branches:
-      - master  # Replace with your main branch name if it's different
+      - master  # Ensure this matches your main branch name
 
 jobs:
   build-report:
@@ -16,13 +16,11 @@ jobs:
 
       # Step 2: Install dependencies
       - name: Install dependencies
-        run: |
-          npm ci
+        run: npm ci
 
       # Step 3: Run Playwright tests
       - name: Run tests with Playwright
-        run: |
-          npx playwright test
+        run: npx playwright test
 
       # Step 4: Generate Allure report
       - name: Generate Allure report
@@ -35,19 +33,26 @@ jobs:
             exit 1
           fi
 
-      # Step 5: Checkout the report branch for pushing the report
-      - name: Checkout report branch
-        uses: actions/checkout@v3
-        with:
-          ref: refs/heads/report-branch
-          fetch-depth: 0
+      # Step 5: Checkout the report branch (create branch if it doesn't exist)
+      - name: Prepare report branch
+        run: |
+          git fetch origin
+          if git ls-remote --exit-code --heads origin report-branch; then
+            git checkout report-branch
+            git pull origin report-branch
+          else
+            git checkout --orphan report-branch
+            git rm -rf .
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Step 6: Commit and push the generated Allure report
       - name: Push report to branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Avoid unintended deletions with care while cleaning files
+          # Remove old files (except .git directory) and add new report
           find . -not -name '.git' -delete
           mv allure-report/* .
           git config --global user.name "github-actions[bot]"
