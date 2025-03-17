@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test';
 
 
 export default defineConfig({
-  reporter: [['line'], ['allure-playwright']],
+  reporter: [['line'],['allure-playwright']],
   testDir: './tests',
 });
 
