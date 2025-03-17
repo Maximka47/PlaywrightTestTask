@@ -20,7 +20,7 @@ jobs:
 
       # Step 3: Run Playwright tests
       - name: Run tests with Playwright
-        run: npx playwright test
+        run: npx playwright test --reporter=allure-playwright
 
       # Step 4: Generate Allure report
       - name: Generate Allure report
@@ -57,12 +57,18 @@ jobs:
         run: |
           # Remove old files (except .git directory) and add new report
           find . -not -name '.git' -delete
+          if [ -d "allure-report" ] && [ "$(ls -A allure-report)" ]; then
           mv allure-report/* .
+          else
+          echo "No Allure report found to move. Skipping report generation."
+          exit 0
+          fi
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Update Allure report" || echo "No changes to commit"
           git push origin report-branch --force
+
 
       # Step 7: Deploy Allure Report to GitHub Pages
       - name: Deploy to GitHub Pages
