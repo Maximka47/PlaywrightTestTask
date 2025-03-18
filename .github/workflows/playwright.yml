@@ -18,8 +18,7 @@ jobs:
       - name: Install dependencies
         run: timeout 5m npm ci && npx playwright install --with-deps && npm install -D allure-playwright
 
-
-      # Step 3: Run Playwright tests
+      # Step 3: Run Playwright tests and generate allure-results
       - name: Run tests with Playwright
         run: npx playwright test --reporter=allure-playwright
 
@@ -34,11 +33,17 @@ jobs:
             exit 1
           fi
 
-      # Step 5: Clean any uncommitted changes and checkout the report branch
+      # Step 5: Move Allure report files to a temporary folder (to save them)
+      - name: Save Allure Report files
+        run: |
+          echo "Saving Allure report to a temporary location..."
+          mkdir -p /tmp/allure-report
+          cp -R allure-report/* /tmp/allure-report/
+
+      # Step 6: Prepare report branch
       - name: Prepare report branch
         run: |
           git fetch origin
-          # Clean uncommitted changes to avoid checkout conflicts
           git reset --hard
           git clean -fd
           if git ls-remote --exit-code --heads origin report-branch; then
@@ -51,27 +56,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 6: Commit and push the generated Allure report
+      # Step 7: Restore Allure Report files to the working directory
+      - name: Restore Allure Report files
+        run: |
+          echo "Restoring Allure report files..."
+          cp -R /tmp/allure-report/* .
+
+      # Step 8: Commit and push the generated Allure report
       - name: Push report to branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Remove old files (except .git directory) and add new report
-          find . -not -name '.git' -delete
-          if [ -d "allure-report" ] && [ "$(ls -A allure-report)" ]; then
-          mv allure-report/* .
-          else
-          echo "No Allure report found to move. Skipping report generation."
-          exit 0
-          fi
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Update Allure report" || echo "No changes to commit"
           git push origin report-branch --force
 
-
-      # Step 7: Deploy Allure Report to GitHub Pages
+      # Step 9: Deploy Allure Report to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -79,7 +81,7 @@ jobs:
           publish_branch: report-branch
           publish_dir: .
 
-      # Step 8: Output GitHub Pages public link
+      # Step 10: Output GitHub Pages public link
       - name: Set GitHub Pages URL
         run: |
           echo "Allure Report available at: https://Maximka47.github.io/PlaywrightTestTask/"
