@@ -57,13 +57,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Remove old files (except .git directory) and add new report
-          find . -not -name '.git' -delete
-          if [ -d "allure-report" ] && [ "$(ls -A allure-report)" ]; then
-          mv allure-report/* .
-          else
-          echo "No Allure report found to move. Skipping report generation."
-          exit 0
+          if [ ! -d "allure-report" ] || [ -z "$(ls -A allure-report)" ]; then
+            echo "Error: allure-report directory is missing or empty."
+            exit 1
           fi
+          mv allure-report/* .
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
