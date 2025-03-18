@@ -1,7 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","5312","Search yields results for valid query","","Tue Mar 18 00:51:02 UTC 2025","passed","Tue Mar 18 00:51:07 UTC 2025","","search.spec.js","",""
-"","6907","Search displays message for no results","","Tue Mar 18 00:51:07 UTC 2025","passed","Tue Mar 18 00:51:14 UTC 2025","","search.spec.js","",""
-"","3772","User can log out successfully","","Tue Mar 18 00:50:58 UTC 2025","passed","Tue Mar 18 00:51:01 UTC 2025","","logout.spec.js","",""
-"","4712","User can login with valid credentials","","Tue Mar 18 00:50:53 UTC 2025","passed","Tue Mar 18 00:50:58 UTC 2025","","login.spec.js","",""
-"","4312","User gets error message on un successful register","","Tue Mar 18 00:50:58 UTC 2025","passed","Tue Mar 18 00:51:03 UTC 2025","","register.spec.js","",""
-"","4122","Verify homepage loads successfully","","Tue Mar 18 00:50:53 UTC 2025","passed","Tue Mar 18 00:50:57 UTC 2025","","homePage.spec.js","",""
