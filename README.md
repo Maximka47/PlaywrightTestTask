@@ -7,3 +7,12 @@ Allure Report available at: https://Maximka47.github.io/PlaywrightTestTask/
   <li>npm>=8.19</li>
 </ul>
 
+<h4>Installation</h4>
+<textarea>
+  git clone https://github.com/Maximka47/PlaywrightTestTask.git
+  cd PlaywrightTestTask
+  npm install
+</textarea>
+
+<h4>How to run</h4>
+<p>npx playwright test</p>
