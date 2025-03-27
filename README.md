@@ -9,11 +9,11 @@ Allure Report available at: https://Maximka47.github.io/PlaywrightTestTask/
 
 <h4>Installation</h4>
 
-``````
+````
   git clone https://github.com/Maximka47/PlaywrightTestTask.git<br>
   cd PlaywrightTestTask<br>
   npm install
-``````
+````
 
 <h4>How to run</h4>
 <p>npx playwright test</p>
