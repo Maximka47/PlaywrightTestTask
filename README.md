@@ -16,4 +16,6 @@ Allure Report available at: https://Maximka47.github.io/PlaywrightTestTask/
 ````
 
 <h4>How to run</h4>
+````
 <p>npx playwright test</p>
+````
