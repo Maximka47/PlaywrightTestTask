@@ -8,8 +8,8 @@ Allure Report available at: https://Maximka47.github.io/PlaywrightTestTask/
 </ul>
 
 <h4>Installation</h4>
-<br>
-```
+
+``````
   git clone https://github.com/Maximka47/PlaywrightTestTask.git<br>
   cd PlaywrightTestTask<br>
   npm install
