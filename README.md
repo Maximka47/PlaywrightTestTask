@@ -17,7 +17,10 @@
 
 ```
 npx playwright test
-```
+``````
+<h4>To create allure report:</h4>
+
+npx playwright test --reporter=allure-playwright
 
 Allure Report available at: https://Maximka47.github.io/PlaywrightTestTask/
 
